@@ -1,0 +1,7 @@
+{
+  "tabWidth": 2,
+  "useTabs": false,
+	"python.formatting.provider": "black",
+  "python.formatting.blackArgs": ["--line-length", "120"],
+	"editor.defaultFormatter": "esbenp.prettier-vscode"
+}
