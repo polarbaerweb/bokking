@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		{% block title %}
+		<title>MovieDB</title>
+		{% endblock %}
+		<!-- Links(external) -->
+		<link href="https://fonts.googleapis.com/css?family=Roboto:regular,500,700" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css?family=Philosopher:700" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+		<link rel="shortcut icon" href="https://cinema.magiccity.uz/img/favicon.png" type="image/x-icon" />
+
+		<!-- Links(Own) -->
+		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+		<!-- Scripts(External) -->
+		<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+		<!-- Scripts(Own) -->
+		<script type="module" src="{% static 'js/burger.js' %}" defer></script>
+		<script type="module" src="{% static 'js/breadcrumbs.js' %}" defer></script>
+	</head>
+
+	<body>
+		<div class="wrapper">
+			{% include './header.html' %}
+			<main class="main">
+				<div class="main__breadcrumbs main__container">
+					<ul class="main__breadcrumbs-list">
+					</ul>
+				</div>
+				{% block main %}{% endblock %}
+			</main>
+			{% include './footer.html' %}
+		</div>
+
+		{% block script %}
+		{% endblock %}
+	</body>
+
+</html>

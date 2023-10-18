@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "auth",
+    "user_auth",
     "show_data",
     "user_profile",
     "admin_profile",
+		"actors",
 ]
 
 MIDDLEWARE = [
@@ -59,10 +60,11 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            BASE_DIR / "auth" / "templates",
-            BASE_DIR / "show_data" / "templates",
-            BASE_DIR / "user_profile" / "templates",
-            BASE_DIR / "admin_profile" / "templates",
+            BASE_DIR / "displays" / "temps",
+            BASE_DIR / "user_auth" / "temps",
+            BASE_DIR / "show_data" / "temps",
+            BASE_DIR / "user_profile" / "temps",
+            BASE_DIR / "admin_profile" / "temps",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -126,8 +128,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    BASE_DIR / "auth" / "static",
+    BASE_DIR / "displays" / "static",
+    BASE_DIR / "user_auth" / "static",
     BASE_DIR / "show_data" / "static",
     BASE_DIR / "user_profile" / "static",
     BASE_DIR / "admin_profile" / "static",
@@ -147,4 +149,23 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 # Custom Auth System
 
-AUTH_USER_MODEL = "auth.UserModel"
+AUTH_USER_MODEL = "user_auth.UserModel"
+
+
+# logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR', 
+            'class': 'logging.FileHandler',
+            'filename': 'logs/admin_profile.log',
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'ERROR',
+    },
+}

@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block main %}
+<section class="main__signup main__section">
+	<div class="main__signup-container">
+		<img src="{% static 'images/top_movies/28strike-movies-superJumbo.jpg' %}" alt="signup image"
+			class="main__form-img">
+		<form action="{% url 'user_auth:signup' %}" method="post" class="main__signup-form main__form"
+			enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="main__form-top">
+				<h1 class="main__signup-title">Create account</h1>
+			</div>
+			<div class="main__form-body">
+				<div class="main__form-block">
+					<label for="email" class="main__form-label">
+						<img src="{% static 'images/icons/EnvelopeSimple.svg' %}" alt="email icon">
+					</label>
+					<input type="email" name="email" id="email" class="main__form-input" autocomplete="off">
+				</div>
+				<div class="main__form-block">
+					<label for="username" class="main__form-label">
+						<img src="{% static 'images/icons/User.svg' %}" alt="user icon">
+					</label>
+					<input type="text" name="username" id="username" class="main__form-input" autocomplete="off">
+				</div>
+				<div class="main__form-block">
+					<label for="user_firstname" class="main__form-label">
+						<img src="{% static 'images/icons/User.svg' %}" alt="user icon">
+					</label>
+					<input type="text" name="first_name" id="user_firstname" class="main__form-input" autocomplete="off">
+				</div>
+				<div class="main__form-block">
+					<label for="user_lastname" class="main__form-label">
+						<img src="{% static 'images/icons/User.svg' %}" alt="user icon">
+					</label>
+					<input type="text" name="last_name" id="user_lastname" class="main__form-input" autocomplete="off">
+				</div>
+				<div class="main__form-block">
+					<label for="password1" class="main__form-label">
+						<img src="{% static 'images/icons/LockKey.svg' %}" alt="lock icon">
+					</label>
+					<input type="password" name="password1" id="password1" class="main__form-input">
+				</div>
+				<div class="main__form-block">
+					<label for="password2" class="main__form-label">
+						<img src="{% static 'images/icons/LockKey.svg' %}" alt="lock icon">
+					</label>
+					<input type="password" name="password2" id="password2" class="main__form-input">
+				</div>
+				<div class="main__form-block">
+					<label for="user_image" class="main__form-browse">
+						upload user image
+					</label>
+					<input type="file" name="user_image" id="user_image" hidden>
+				</div>
+			</div>
+			<div class="main__form-block">
+				<input type="submit" class="main__form-input" value="Create Account"></input>
+			</div>
+		</form>
+	</div>
+</section>
+{% endblock%}
+
+{% block script %}
+<script src="{% static 'js/get_uploaded_filename.js' %}" defer></script>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block main %}
+<section class="main__collection main__section">
+	<img src="images/static_images/Ellipse 8.png" alt="background-image" class="main__bg-img" />
+	<div class="main__slides main__container">
+		<div class="main__swiper swiper">
+			<div class="swiper-wrapper main__slide-wrapper">
+				{% for top_movie in top_movies %}
+				<a href="{% url 'show_data:detail' top_movie.id %}" class="swiper-slide ">
+					<div class="main__slide">
+						<h2 class="main__slide-title">{{ top_movie.summary }}</h2>
+						<figure class="main__img-box">
+							<img src="{{top_movie.img.url}}" alt="slider image" class="main__slide-img" />
+						</figure>
+						<div class="main__slide-description">
+							<p class="main__text">
+								{{ top_movie.description }}
+							</p>
+						</div>
+					</div>
+				</a>
+				{% endfor %}
+			</div>
+			<div class="swiper-pagination main__swiper-pagination"></div>
+		</div>
+		<div class="main__similar">
+			<h1 class="main__similar-top-title main__movie-title">
+				Похожие коллекции
+			</h1>
+			<ul class="main__similar-list">
+				{% for similar_movie in similar_movies %}
+				<li class="main__similar-item">
+					<a href="{% url 'show_data:detail' similar_movie.id %}">
+						<figure class="main__similar-box">
+							<img src="{{ similar_movie.img.url }}" alt="main similar img" class="main__similar-img" />
+							<figcaption class="main__similar-title main__base-text">
+								<h3 class="main__similar-time">{{ similar_movie.date }}</h3>
+								<div class="main__similar-description">
+									<p class="main__text">
+										{{ similar_movie.description|truncatechars:50 }}
+									</p>
+								</div>
+							</figcaption>
+						</figure>
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</section>
+{% for collection in movies_collection %}
+<section class="main__collection-movies main__section">
+	<img src="images/static_images/Ellipse 8 (1).png" alt="background-image" class="main__bg-img right">
+	<div class="main__collection-container main__container">
+		<h2 class="main__section-title">{{ collection.title }}</h2>
+		<div class="main__collection-swiper swiper">
+			<ul class="main__collection-list main__collection-swiper-wrapper swiper-wrapper">
+				{% for movie in collection.movie.all %}
+				<li class="main__collection-item swiper-slide">
+					<a href="{% url 'show_data:detail' movie.id %}" class="main__collection-link">
+						<figure class="main__collection-box">
+							<div class="main__img-wrapper">
+								<img src="{{ movie.img.url }}" alt="top movie image" class="main__collection-img">
+							</div>
+
+							<figcaption class="main__collection-title">
+								<h3 class="main__collection-title">{{ movie.name_translated }}</h3>
+								<ul class="main__collection-sub-list">
+									<li class="main__sub-item">
+										<a href="#" class="main__sub-link">{{ movie.date.year }}</a>
+									</li>
+									<li class="main__sub-item">
+										<a href="#" class="main__sub-link">{{ movie.rating }}</a>
+									</li>
+									<li class="main__sub-item">
+										<a href="#" class="main__sub-link">{{ movie.city }}</a>
+									</li>
+								</ul>
+							</figcaption>
+						</figure>
+						<div class="main__collection-results">
+							<a href="#" class="main__collection-result movie-top">
+								<img src="{% static 'images/top_movies/movie.svg' %}" alt="top movie service">
+								<p class="main__collection-number">5.0</p>
+							</a>
+							<a href="#" class="main__collection-result movie-imdb">
+								<span class="main__collection-span">imdb</span>
+								<p class="main__collection-number">4.8</p>
+							</a>
+						</div>
+					</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</section>
+{% endfor %}
+{% endblock %}
+
+
+{% block script %}
+<script src="{% static 'swiper.js' %}" defer></script>
+<script src="{% static 'collection_swiper.js' %}" defer></script>
+{% endblock %}

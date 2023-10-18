@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block main%}
+<section class="main__signup main__section">
+	<div class="main__signup-container">
+		<img src="{% static 'images/top_movies/28strike-movies-superJumbo.jpg' %}" alt="signup image"
+			class="main__form-img">
+		<form action="{% url 'user_auth:login' %}" method="post" class="main__signup-form main__form">
+			{% csrf_token %}
+			<div class="main__form-top">
+				<h1 class="main__signup-title">LogIn</h1>
+			</div>
+			<div class="main__form-body">
+				<div class="main__form-block">
+					<label for="username" class="main__form-label">
+						<img src="{% static 'images/icons/EnvelopeSimple.svg' %}" alt="email icon">
+					</label>
+					<input type="text" name="username" id="username" class="main__form-input" autocomplete="off">
+				</div>
+				<div class="main__form-block">
+					<label for="password1" class="main__form-label">
+						<img src="{% static 'images/icons/LockKey.svg' %}" alt="lock icon">
+					</label>
+					<input type="password" name="password" id="password" class="main__form-input">
+				</div>
+			</div>
+			<div class="main__form-block">
+				<input type="submit" class="main__form-input" value="LogIn"></input>
+			</div>
+		</form>
+	</div>
+</section>
+{% endblock %}

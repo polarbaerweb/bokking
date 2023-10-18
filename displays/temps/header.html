@@ -1,0 +1,96 @@
+{% load static %}
+
+<header class="header">
+	<div class="header__container">
+		<div class="header__logo logo">
+			<a href="{% url 'show_data:home' %}" tabindex="10"><img src="{% static 'images/logo/Logo.svg' %}"
+					alt="logo" /></a>
+		</div>
+		<div class="header__navigation-box">
+			<nav class="header__navigation">
+				<ul class="header__menu menu">
+					<li class="header__menu-item menu__item">
+						<a href="{% url 'show_data:home' %}" class="header__menu-link menu__link" tabindex="1">Главная</a>
+					</li>
+					<li class="header__menu-item menu__item sub">
+						<span class="header__menu-link menu__link" tabindex="2">По жанру</span>
+						<ul class="header__sub-menu sub__menu">
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Боевик</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Военные</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Детектив</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Детский</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Драма</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Комедия</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Криминал</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Мелодрама</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Триллер</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Ужасы</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Фантастика</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="" class="header__sub-link">Фэнтези</a>
+							</li>
+						</ul>
+					</li>
+					{% if  request.user.is_authenticated %}
+					<li class="header__menu-item menu__item sub">
+						<a href="" class="header__menu-link menu__link" tabindex="4">
+							{{ request.user.username }}
+						</a>
+						<ul class="header__sub-menu sub__menu">
+							<li class="header__sub-item">
+								<a href="{% url 'user_auth:logout' %}" class="header__sub-link">Log Out</a>
+							</li>
+						</ul>
+					</li>
+					{% else %}
+					<li class="header__menu-item menu__item sub">
+						<a href="" class="header__menu-link menu__link" tabindex="4">
+							guest
+						</a>
+						<ul class="header__sub-menu sub__menu">
+							<li class="header__sub-item sub__item">
+								<a href="{% url 'user_auth:signup' %}" class="header__sub-link">Создать аккаунт</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="{% url 'user_auth:login' %}" class="header__sub-link">Войти в систему</a>
+							</li>
+						</ul>
+					</li>
+					{% endif %}
+				</ul>
+			</nav>
+			<form action="#" method="post" class="header__form">
+				<div class="header__form-block">
+					<input type="text" name="movie_name" id="search" placeholder="Поиск по сайту" autocomplete="off"
+						tabindex="9" />
+					<label for="search" class="header__search">
+						<img src="{% static 'images/glass.svg' %}" alt="search glass" />
+					</label>
+				</div>
+			</form>
+		</div>
+		<div class="burger"><span class="burger__middle"></span></div>
+	</div>
+</header>
