@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block main %}
+
+<section class="main__admin">
+	<div class="main__admin-container main__container">
+		<h1>{{ forms.cinema.title }}</h1>
+		<form action="{% url 'admin_profile:save_data' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ forms.cinema.form.as_p }}
+			<input type="text" hidden value="cinema" name="form_type">
+			<button type="submit">Save</button>
+		</form>
+	</div>
+</section>
+
+{% endblock %}

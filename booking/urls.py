@@ -25,6 +25,6 @@ urlpatterns = [
 	
 	path("", include("show_data.urls")),
 	path("auth/", include("user_auth.urls")),
-
+	path("user_admin/", include("admin_profile.urls"))
 ]
 
