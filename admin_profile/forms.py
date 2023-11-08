@@ -1,16 +1,37 @@
+from django import forms
 from django.forms import ModelForm
+
+from actors import models as actor_md
+from show_data import models as show_md
 
 from . import models as md
 
+
+class ActorsForm(ModelForm):
+    class Meta:
+        model = actor_md.Actors
+        fields = "__all__"
+
+
+class JobsForm(ModelForm):
+    class Meta:
+        model = actor_md.Jobs
+        fields = "__all__"
+
+
+class Prizes(ModelForm):
+    class Meta:
+        model = actor_md.Prizes
+        fields = "__all__"
+
+
 class CinemaForm(ModelForm):
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-
-		self.fields['name'].widget.attrs['class'] = 'main__admin-input'
-		self.fields['name'].widget.attrs['placeholder'] = 'enter cinema name'
-		self.fields['name'].label_classes = ("main__admin-label", )
+    class Meta:
+        model = md.Cinema
+        fields = "__all__"
 
 
+class Sessions(ModelForm):
 	class Meta:
-		model = md.Cinema
+		model = md.Session
 		fields = "__all__"

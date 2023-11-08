@@ -1,18 +1,193 @@
 {% extends 'layout.html' %}
 {% load static %}
 
-{% block main %}
+{% block admin %}
 
-<section class="main__admin">
-	<div class="main__admin-container main__container">
-		<h1>{{ forms.cinema.title }}</h1>
-		<form action="{% url 'admin_profile:save_data' %}" method="post" enctype="multipart/form-data">
-			{% csrf_token %}
-			{{ forms.cinema.form.as_p }}
-			<input type="text" hidden value="cinema" name="form_type">
-			<button type="submit">Save</button>
-		</form>
-	</div>
-</section>
+<main class="main main__admin">
+	<aside class="main__admin-aside">
+		<ul class="main__admin-list">
+			<h1 class="main__admin-aside-header">Admin Dashboard</h1>
+			<li class="main__admin-aside-item" data-form_type="actors" data-admin_aside>
+				<div class="main__admin-side-box">
+					<i class="fa-solid fa-user"></i>
+				</div>
+				<h2 class="main__admin-aside-name">actors</h2>
+			</li>
+			<li class="main__admin-aside-item" data-form_type="jobs" data-admin_aside>
+				<div class="main__admin-side-box">
+					<i class="fa-solid fa-suitcase"></i>
+				</div>
+				<h2 class="main__admin-aside-name">jobs</h2>
+			</li>
+			<li class="main__admin-aside-item" data-form_type="prizes" data-admin_aside>
+				<div class="main__admin-side-box">
+					<i class="fa-solid fa-award"></i>
+				</div>
+				<h2 class="main__admin-aside-name">prizes</h2>
+			</li>
+			<li class="main__admin-aside-item" data-form_type="cinema" data-admin_aside>
+				<div class="main__admin-side-box">
+					<i class="fa-solid fa-location-dot"></i>
+				</div>
+				<h2 class="main__admin-aside-name">cinema</h2>
+			</li>
+			<li class="main__admin-aside-item" data-form_type="sessions" data-admin_aside>
+				<div class="main__admin-side-box">
+					<i class="fa-solid fa-calendar"></i>
+				</div>
+				<h2 class="main__admin-aside-name">sessions</h2>
+			</li>
+			<li class="main__admin-aside-item" data-form_type="collection" data-admin_aside>
+				<div class="main__admin-side-box">
+					<i class="fa-solid fa-bars"></i>
+				</div>
+				<h2 class="main__admin-aside-name">collections of movies</h2>
+			</li>
+			<li class="main__admin-aside-item" data-form_type="genre" data-admin_aside>
+				<div class="main__admin-side-box">
+					<i class="fa-solid fa-book"></i>
+				</div>
+				<h2 class="main__admin-aside-name">genre</h2>
+			</li>
+			<li class="main__admin-aside-item" data-form_type="movie" data-admin_aside>
+				<div class="main__admin-side-box">
+					<i class="fa-solid fa-film"></i>
+				</div>
+				<h2 class="main__admin-aside-name">movies</h2>
+			</li>
+		</ul>
+	</aside>
+	<section class="main__admin-section">
+		<div class="main__massage-block">
 
+		</div>
+		<div class="main__admin-actors-container">
+			<form method="post" class="main__admin-actors-form main__admin-form" data-form_type="actors"
+				enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="main__admin-form-flexed">
+					<div class="main__admin-select-block">
+						<label for="prizes">Prizes</label>
+						<select name="prizes" id="prizes" class="main__admin-select" data-choice multiple="multiple"
+							data-is_not_single="true">
+						</select>
+					</div>
+					<div class="main__admin-select-block">
+						<label for="jobs">Jobs</label>
+						<select name="jobs" id="jobs" class="main__admin-select" data-choice multiple="multiple"
+							data-is_not_single="true">
+						</select>
+					</div>
+				</div>
+				<div class="main__admin-form-block">
+					<label for="first_name" class="main__admin-label"><i class="fa-solid fa-user"></i></label>
+					<input type="text" name="first_name" id="first_name">
+				</div>
+				<div class="main__admin-form-block">
+					<label for="last_name" class="main__admin-label"><i class="fa-solid fa-user"></i></label>
+					<input type="text" name="last_name" id="last_name">
+				</div>
+				<div class="main__admin-form-block">
+					<label for="sure_name" class="main__admin-label"><i class="fa-solid fa-user"></i></label>
+					<input type="text" name="sure_name" id="sure_name">
+				</div>
+				<div class="main__admin-form-block">
+					<button type="submit" class="main__admin-btn">save</button>
+				</div>
+			</form>
+			<form method="post" class="main__admin-jobs-form main__admin-form" data-form_type="jobs"
+				enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="main__admin-form-block">
+					<label for="jobs_add" class="main__admin-label"><i class="fa-solid fa-suitcase"></i></label>
+					<input type="text" name="name" id="jobs_add">
+				</div>
+				<div class="main__admin-form-block">
+					<button type="submit" class="main__admin-btn">save</button>
+				</div>
+			</form>
+			<form method="post" class="main__admin-prizes-form main__admin-form" data-form_type="prizes"
+				enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="main__admin-form-block">
+					<label for="prizes_add" class="main__admin-label"><i class="fa-solid fa-award"></i></label>
+					<input type="text" name="name" id="prizes_add">
+				</div>
+				<div class="main__admin-form-block">
+					<button type="submit" class="main__admin-btn">save</button>
+				</div>
+			</form>
+			<form method="post" class="main__admin-cinema-form main__admin-form" data-form_type="cinema"
+				enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="main__admin-form-block">
+					<label for="name_add" class="main__admin-label"><i class="fa-solid fa-location-dot"></i></label>
+					<input type="text" name="name_add" id="name_add">
+				</div>
+				<div class="main__admin-form-block">
+					<button type="submit" class="main__admin-btn">save</button>
+				</div>
+			</form>
+			<form method="post" class="main__admin-session-form main__admin-form" data-form_type="sessions"
+				enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="main__admin-form-flexed">
+					<div class="main__admin-select-block main__session-block">
+						<label for="cinema">cinema</label>
+						<select name="cinema" id="cinema" class="main__admin-select" data-choice data-is_not_single="false">
+						</select>
+					</div>
+					<div class="main__admin-select-block main__session-block">
+						<label for="hall">hall</label>
+						<select name="hall" id="hall" class="main__admin-select" data-choice data-is_not_single="false">
+						</select>
+					</div>
+					<div class="main__admin-select-block main__session-block">
+						<label for="movie">movie</label>
+						<select name="movie" id="movie" class="main__admin-select" data-choice data-is_not_single="false">
+						</select>
+					</div>
+				</div>
+				<div class="main__admin-form-block">
+					<input type="checkbox" name="is_vip" id="is_vip">
+					<label for="is_vip" class="main__admin-label main__label-is_vip">
+						<i class="fa-solid fa-infinity"></i>
+					</label>
+				</div>
+				<div class="main__admin-form-block">
+					<input type="text" name="start_time" id="start_time">
+				</div>
+				<div class="main__admin-form-block">
+					<label for="is_vip" class="main__admin-label">
+						<i class="fa-solid fa-infinity"></i>
+					</label>
+					<input type="number" step="1" name="price">
+				</div>
+				<div class="main__admin-form-block">
+					<button type="submit" class="main__admin-btn">save</button>
+				</div>
+			</form>
+		</div>
+	</section>
+</main>
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/admin_form_handler.js' %}" type="module" defer></script>
+<script src="{% static 'js/choices.js' %}" type="module" defer></script>
+<script src="{% static 'js/date_picker.js' %}" type="module" defer></script>
+
+<script>
+	const breadcrumbs = document.querySelector( ".main__breadcrumbs" );
+	const main = document.querySelector( ".main" );
+	const main_admin = document.querySelector( ".main__admin" );
+
+	document.addEventListener( "DOMContentLoaded", () =>
+	{
+		breadcrumbs.style.display = "none";
+		main.style.display = "none";
+		main_admin.style.display = "flex"
+	} )
+</script>
 {% endblock %}

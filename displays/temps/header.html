@@ -62,6 +62,12 @@
 							<li class="header__sub-item">
 								<a href="{% url 'user_auth:logout' %}" class="header__sub-link">Log Out</a>
 							</li>
+							<li class="header__sub-item">
+								<a href="{% url 'admin_profile:admin' %}" class="header__sub-link">Admin Panel</a>
+							</li>
+							<li class="header__sub-item">
+								<a href="{% url 'admin_profile:session_list' %}" class="header__sub-link">Sessions List</a>
+							</li>
 						</ul>
 					</li>
 					{% else %}

@@ -61,9 +61,7 @@
 		</div>
 	</div>
 </section>
+{% if sessions.count %}
 {% include './tickets.html' %}
-{% endblock %}
-
-{% block script %}
-<script src="{% static 'tickets_swiper.js' %}"></script>
+{% endif %}
 {% endblock %}

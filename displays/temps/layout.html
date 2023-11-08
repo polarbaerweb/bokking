@@ -15,15 +15,24 @@
 
 		<link rel="shortcut icon" href="https://cinema.magiccity.uz/img/favicon.png" type="image/x-icon" />
 
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 		<!-- Links(Own) -->
 		<link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
 		<!-- Scripts(External) -->
 		<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
+		<script src="https://kit.fontawesome.com/e6a3da6583.js" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 		<!-- Scripts(Own) -->
 		<script type="module" src="{% static 'js/burger.js' %}" defer></script>
 		<script type="module" src="{% static 'js/breadcrumbs.js' %}" defer></script>
+		<script type="module" src="{% static 'js/tickets_swiper.js' %}"></script>
+
 	</head>
 
 	<body>
@@ -36,6 +45,10 @@
 				</div>
 				{% block main %}{% endblock %}
 			</main>
+
+			{% block admin %}
+			{% endblock %}
+
 			{% include './footer.html' %}
 		</div>
 

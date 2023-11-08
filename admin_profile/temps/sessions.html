@@ -1,15 +1,21 @@
-<section class="main__collection-movies main__section">
-	<img src="images/static_images/Ellipse 8 (2).png" alt="background-image" class="main__bg-img right">
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block main %}
+<section class="main__sessions-list main__section">
 	<div class="main__collection-container main__container">
-		<h2 class="main__section-title">Сеансы на сегодня</h2>
+		{% if sessions.count == 0%}
+		<h2 class="main__section-title">Not sessions were found</h2>
+		{% endif %}
 		<div class="main__collection-swiper  main__ticket-swiper swiper">
 			<ul class="main__collection-list main__collection-swiper-wrapper swiper-wrapper">
 				{% for session in sessions %}
 				<li class="swiper-slide main__collection-item ">
-					<a href="#" class="main__collection-link">
+					<a href="{% url 'show_data:detail' session.movie.id %}" class="main__collection-link">
 						<figure class="main__collection-box">
 							<div class="main__img-wrapper">
-								<img src="{{ movie.img.url }}" alt=" top movie image" class="main__collection-img">
+								<img src="{{ session.movie.img.url }}" alt=" top movie image" class="main__collection-img">
 							</div>
 
 							<figcaption class="main__collection-title">
@@ -26,38 +32,39 @@
 										<a href="#" class="main__sub-link main__tickets-sub-link">{{ session.hall.name }}</a>
 									</li>
 									<li class="main__sub-item">
-										<a href="#" class="main__sub-link main__tickets-sub-link {% if session.is_vip %} vip {% endif %}">
-											{% if session.is_vip %}
-											Vip
-											{% else %}
-											Default
-											{% endif %}
+										<a href="#" class="main__sub-link main__tickets-sub-link">
+											Edit
+										</a>
+									</li>
+									<li class="main__sub-item">
+										<a href="{% url 'admin_profile:delete_session' session.id %}"
+											class="main__sub-link main__tickets-sub-link">Delete
 										</a>
 									</li>
 								</ul>
 							</figcaption>
 						</figure>
-						<div class="main__collection-results">
-							<a href="#" class="main__collection-result movie-top">
-								<img src="images/top_movies/image 3.svg" alt="top movie service">
-								<p class="main__collection-number">5.0</p>
-							</a>
-							<a href="#" class="main__collection-result movie-imdb">
-								<span class="main__collection-span">imdb</span>
-								<p class="main__collection-number">4.8</p>
-							</a>
-						</div>
+						<!-- <div class="main__collection-results">
+								<a href="#" class="main__collection-result movie-top">
+									<img src="images/top_movies/image 3.svg" alt="top movie service">
+									<p class="main__collection-number">5.0</p>
+								</a>
+								<a href="#" class="main__collection-result movie-imdb">
+									<span class="main__collection-span">imdb</span>
+									<p class="main__collection-number">4.8</p>
+								</a>
+							</div> -->
 					</a>
 				</li>
-
 				{% endfor %}
 			</ul>
 		</div>
 	</div>
 </section>
+{% endblock %}
+
 
 {% block script %}
-
 <script>
 	const prices = document.querySelectorAll( ".price" )
 
@@ -72,5 +79,4 @@
 		price.textContent = formatter.format( value );
 	} )
 </script>
-
 {% endblock %}

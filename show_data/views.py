@@ -1,8 +1,10 @@
 from math import floor
 
 from django.shortcuts import render
+from django.utils.timezone import now
 
 from . import models as md
+
 
 def movies_list(request):
 	movies_list = md.Movie.objects.all().order_by("-rating")
@@ -24,9 +26,14 @@ def movies_list(request):
 
 def movies_detail(request, movie_id):
 	movie = md.Movie.objects.get(id=movie_id)
+	sessions = movie.sessions.filter(start_time__date=now().date())
+
+
 	context = {
-		"movie": movie
+		"movie": movie,
+		"sessions": sessions
 	}
 
 	template_name = "movies_detail.html"
 	return render(request, template_name, context)
+	
