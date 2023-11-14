@@ -1,30 +1,118 @@
-const select_elements = document.querySelectorAll("select[data-choice]");
+function choicesCache() {
+	const choicesCache = new Map();
 
-async function initializeChoices(select) {
-	const id = select.id;
-	const options = await getChoices(id);
-	const is_not_single = Boolean(select.dataset.is_not_single);
+	const methods = {
+		addToChoiceCache: function (choice_name, valuesLength, values) {
+			if (!choicesCache.has(choice_name)) {
+				choicesCache.set(choice_name, {
+					valuesLength: valuesLength,
+					values: values,
+				});
+				return false;
+			}
+		},
 
-	const choice_config = {
-		choices: options,
-		removeItemButton: is_not_single,
+		isValuesLengthHigherToOld: function (choice_name, valuesLength, values) {
+			const currentLength = choicesCache.get(choice_name);
+
+			if (valuesLength > currentLength.valuesLength) {
+				choicesCache.set(choice_name, {
+					valuesLength: valuesLength,
+					values: values,
+				});
+
+				return true;
+			}
+
+			return false;
+		},
+
+		getValuesFromCache: function (choice_name) {
+			const values = choicesCache.get(choice_name);
+
+			if (values) return values || null;
+		},
 	};
 
-	if (options !== null) {
-		const choices = new Choices(select, choice_config);
+	return methods;
+}
+
+function choicesMemorization() {
+	const choicesBox = new Map();
+
+	const methods = {
+		addToChoicesBox: function (choices, select, choiceName) {
+			if (!choicesBox.has(choiceName)) {
+				choicesBox.set(choiceName, {
+					select: select,
+					choices: choices,
+				});
+			}
+		},
+
+		getChoiceFromChoicesBox: function (choiceName) {
+			if (choicesBox.has(choiceName)) {
+				return choicesBox.get(choiceName);
+			}
+
+			return null;
+		},
+	};
+
+	return methods;
+}
+
+export const choice_cache = choicesCache();
+
+const choicesMemorized = choicesMemorization();
+
+document.addEventListener("DOMContentLoaded", function () {
+	const selectElements = document.querySelectorAll("select[data-choice]");
+
+	selectElements.forEach((element) => {
+		initializeChoices(element);
+	});
+});
+
+export async function initializeChoices(select, reqLink = null) {
+	const id = select.id;
+
+	const { values, valuesLength } =
+		(choice_cache.getValuesFromCache(id) && !reqLink) ||
+		(await getChoices(id, reqLink));
+
+	const isNotSingle = Boolean(select.dataset.is_not_single);
+
+	const choiceConfig = {
+		choices: values,
+		removeItemButton: isNotSingle,
+	};
+
+	if (valuesLength > 0) {
+		const choices = new Choices(select, choiceConfig);
+
+		console.log("DONE");
+
+		choice_cache.addToChoiceCache(id, valuesLength, values);
+		choicesMemorized.addToChoicesBox(choices, select, id);
 	}
 }
 
-select_elements.forEach((select) => {
-	initializeChoices(select);
-});
+export function destroyChoicesIfAllowed(choiceName, values) {
+	const box = choicesMemorized.getChoiceFromChoicesBox(choiceName);
+	if (box) {
+		box.choices.clearChoices();
+		box.choices.setChoices(values);
+	}
+}
 
-async function getChoices(name) {
+export async function getChoices(name, reqLink) {
 	const config = {
 		method: "GET",
 	};
 
-	const endpoint = `http://127.0.0.1:8000/user_admin/get_data_by_name/${name}/`;
+	const endpoint =
+		reqLink || `http://127.0.0.1:8000/user_admin/get_data_by_name/${name}/`;
 
 	try {
 		const response = await fetch(endpoint, config);
@@ -33,27 +121,26 @@ async function getChoices(name) {
 
 		return getValues(data);
 	} catch (error) {
-		console.error("An error occurred:", error);
+		console.log(error);
 		return null;
 	}
 }
 
 function getValues(data) {
-	const values = [];
-
-	data.forEach((info) => {
-		const value = {};
-
+	const values = data.map((info) => {
 		const field = info.fields.name;
-		const value_id = info.pk;
+		const valueId = info.pk;
 		const name = field;
 
-		value["value"] = value_id;
-		value["label"] = name;
-		value["selected"] = false;
-
-		values.push(value);
+		return {
+			value: valueId,
+			label: name,
+			selected: false,
+		};
 	});
 
-	return values;
+	return {
+		values: values,
+		valuesLength: values.length,
+	};
 }

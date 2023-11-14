@@ -31,6 +31,12 @@
 				</div>
 				<h2 class="main__admin-aside-name">cinema</h2>
 			</li>
+			<li class="main__admin-aside-item" data-form_type="hall" data-admin_aside>
+				<div class="main__admin-side-box">
+					<i class="fa-solid fa-location-dot"></i>
+				</div>
+				<h2 class="main__admin-aside-name">hall</h2>
+			</li>
 			<li class="main__admin-aside-item" data-form_type="sessions" data-admin_aside>
 				<div class="main__admin-side-box">
 					<i class="fa-solid fa-calendar"></i>
@@ -62,7 +68,7 @@
 
 		</div>
 		<div class="main__admin-actors-container">
-			<form method="post" class="main__admin-actors-form main__admin-form" data-form_type="actors"
+			<form method="post" class="main__admin-actors-form main__admin-form" data-listener data-form_type="actors"
 				enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="main__admin-form-flexed">
@@ -95,7 +101,7 @@
 					<button type="submit" class="main__admin-btn">save</button>
 				</div>
 			</form>
-			<form method="post" class="main__admin-jobs-form main__admin-form" data-form_type="jobs"
+			<form method="post" class="main__admin-jobs-form main__admin-form" data-listener data-form_type="jobs"
 				enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="main__admin-form-block">
@@ -106,7 +112,7 @@
 					<button type="submit" class="main__admin-btn">save</button>
 				</div>
 			</form>
-			<form method="post" class="main__admin-prizes-form main__admin-form" data-form_type="prizes"
+			<form method="post" class="main__admin-prizes-form main__admin-form" data-listener data-form_type="prizes"
 				enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="main__admin-form-block">
@@ -117,7 +123,7 @@
 					<button type="submit" class="main__admin-btn">save</button>
 				</div>
 			</form>
-			<form method="post" class="main__admin-cinema-form main__admin-form" data-form_type="cinema"
+			<form method="post" class="main__admin-cinema-form main__admin-form" data-listener data-form_type="cinema"
 				enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="main__admin-form-block">
@@ -128,7 +134,25 @@
 					<button type="submit" class="main__admin-btn">save</button>
 				</div>
 			</form>
-			<form method="post" class="main__admin-session-form main__admin-form" data-form_type="sessions"
+			<form method="post" class="main__admin-hall-form main__admin-form" data-listener data-form_type="hall"
+				enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="main__admin-form-flexed column">
+					<div class="main__admin-select-block main__admin-select-block--full">
+						<label for="cinema">cinema</label>
+						<select name="cinema" id="cinema" class="main__admin-select" data-choice data-is_not_single="false">
+						</select>
+					</div>
+				</div>
+				<div class="main__admin-form-block">
+					<label for="name_add" class="main__admin-label"><i class="fa-solid fa-location-dot"></i></label>
+					<input type="text" name="name_add" id="name_add">
+				</div>
+				<div class="main__admin-form-block">
+					<button type="submit" class="main__admin-btn">save</button>
+				</div>
+			</form>
+			<form method="post" class="main__admin-session-form main__admin-form" data-listener data-form_type="sessions"
 				enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="main__admin-form-flexed">

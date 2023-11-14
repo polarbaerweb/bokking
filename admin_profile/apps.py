@@ -6,4 +6,4 @@ class AdminProfileConfig(AppConfig):
 	name = 'admin_profile'
 
 	def ready(self):
-		from .admin_signals import make_row_seats
+		from .admin_signals import make_halls_rows_seats, make_rows_seats

@@ -761,12 +761,13 @@ footer {
 	filter: brightness(1);
 }
 .main__collection-title {
+	width: max-content;
 	color: #fff;
 	font-size: 1.375rem;
 	font-style: normal;
 	font-weight: 500;
 	line-height: normal;
-	margin-top: 11.9375rem;
+	margin-top: 12rem;
 	text-transform: uppercase;
 }
 
@@ -1524,4 +1525,82 @@ footer {
 .main__session-block {
 	max-width: 32%;
 	width: 100%;
+}
+
+.main__session-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.625rem;
+	align-items: flex-start;
+	height: 100%;
+}
+
+.main__session-filter {
+	flex: 1;
+	max-width: 15%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.9375rem;
+}
+
+.main__session-swiper {
+	height: 100vh !important;
+	max-width: 75%;
+	width: 100%;
+}
+
+.main__admin-select-block--full {
+	max-width: 100%;
+	width: 100%;
+}
+
+.main__admin-form-flexed.column {
+	flex-direction: column;
+	gap: 1.25rem;
+}
+
+.main__session-list {
+	height: 100vh !important;
+	min-height: 100vh !important;
+	width: 100% !important;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, calc(50% - 30px));
+	grid-auto-rows: 1fr;
+	gap: 1.875rem;
+
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.main__session-list::-webkit-scrollbar {
+	display: block;
+	width: 0.625rem;
+	background-color: #222222;
+}
+
+.main__session-list::-webkit-scrollbar-thumb {
+	display: block;
+	width: 0.625rem;
+	background-color: #171717;
+}
+
+.main__session-item {
+	width: 100%;
+	height: max-content;
+}
+
+.main__session-link {
+	display: inline-block;
+	width: inherit;
+}
+
+.main__session-box {
+	width: 100%;
+}
+
+.main__session-sub-list {
+	width: 56.25rem !important;
 }

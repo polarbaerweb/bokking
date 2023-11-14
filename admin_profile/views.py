@@ -3,11 +3,14 @@ User Request handler
 """
 
 import logging
+from typing import Union
 
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User
 from django.core import serializers
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError, OperationalError
+from django.db.models import QuerySet
 from django.forms import ModelForm
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, reverse
@@ -40,10 +43,16 @@ FORMS_BOX = {
 			"form": forms.CinemaForm
 		},
 
+		"hall": {
+			"form": forms.HallForm
+		},
+
 		"sessions": {
 			"form": forms.Sessions
 		},
 }
+
+LOGIN_URL = "/user_auth/login/"
 
 
 def handle_form_save(request, form: ModelForm):
@@ -67,7 +76,7 @@ def is_superuser(user: User):
     return user.is_superuser
 
 
-@user_passes_test(is_superuser, login_url="/user_auth/login/")
+@user_passes_test(is_superuser, login_url=LOGIN_URL)
 @require_http_methods(["GET", "POST"])
 def save_data(request):
 	"""Handle admin changes"""
@@ -76,9 +85,9 @@ def save_data(request):
 		form_type = request.POST.get("form_type")
 
 		if not form_type:
-				logging.error(
-						"An error  ocurred, you did not indicate a form_type")
-				return redirect(reverse("admin_profile:admin"))
+				logging.error("An error  ocurred, you did not indicate a form_type")
+				
+				return JsonResponse({"message": "server error, try  later our developers will fix bug"}, status=500)
 
 		form_calling = FORMS_BOX[form_type]["form"]
 
@@ -87,7 +96,6 @@ def save_data(request):
 
 		form_message = handle_form_save(request, form)
 
-		print(form_message)
 
 		return form_message
 
@@ -96,9 +104,43 @@ def save_data(request):
 	return render(request, template_name)
 
 
-@user_passes_test(is_superuser, login_url="/user_auth/login/")
+
+def get_filtered_session(filter_type: str = None, filter_ids: Union[int, list] = None) -> Union[QuerySet, object]:
+	filters_dict = {
+		"all": admin_md.Session.objects.all(),
+		"cinema": admin_md.Session.objects.filter(cinema__id__in=filter_ids),
+		"hall": admin_md.Session.objects.filter(hall__id__in=filter_ids),
+	}
+	
+	sessions = filters_dict.get(filter_type)
+	
+
+	serialized_data = []
+
+	for session in sessions:
+		serialized_data.append(
+			{
+				"id": session.id,
+				"is_vip": session.is_vip,
+				"start_time": session.start_time.strftime("%H:%M"),
+				"price": session.price,
+				
+				"cinema": session.cinema.name,
+				"hall": session.hall.name,
+				"movie_img": session.movie.img.url,
+				"movie_id": session.movie.pk,
+				"movie_name": session.movie.name,
+			}
+		)
+
+
+
+	return serialized_data
+
+
+@user_passes_test(is_superuser, login_url=LOGIN_URL)
 @require_http_methods(request_method_list=["GET"])
-def get_data_by_name(request, name):
+def get_data_by_name(request, name: str):
     """This function provides us with information needed"""
 
     queryset_dict = {
@@ -107,7 +149,7 @@ def get_data_by_name(request, name):
         "cinema": admin_md.Cinema.objects.all(),
         "hall": admin_md.Hall.objects.all(),
         "movie": show_models.Movie.objects.all(),
-				"session": admin_md.Session.objects.all(),
+				"session": get_filtered_session(filter_type="all", filter_ids=[]),
     }
 
     if name not in queryset_dict.keys():
@@ -122,17 +164,47 @@ def get_data_by_name(request, name):
         return JsonResponse({"message": str(e)}, status=500)
 
 
-def session_list(request):
-	sessions = admin_md.Session.objects.all()
+@user_passes_test(is_superuser, login_url=LOGIN_URL)
+@require_http_methods(request_method_list=["GET"])
+def get_data_by_name_and_related_obj(request, cinema_id: int):
+	""" This function will get data by name and related object to it """
+
+	try:
+		cinema = admin_md.Cinema.objects.get(id=cinema_id)
+		halls = cinema.halls.all()
+		
+		data = serializers.serialize("json", queryset=halls, fields=("id", "name"))
+
+	except ObjectDoesNotExist:
+		return JsonResponse({"message": "something went wrong try later"})
+	else:
+		return JsonResponse({"message": data})
+
+
+
+@user_passes_test(is_superuser, LOGIN_URL)
+@require_http_methods(["GET"])
+def session_template(request):
+	""" To get session list """
+
 	template_name = "sessions.html"
-
-	context = {
-		"sessions": sessions
-	}
-
-	return render(request, template_name, context)
+	return render(request, template_name)
 
 
-def delete_session(request, session_id):
+@user_passes_test(is_superuser, LOGIN_URL)
+@require_http_methods(["POST"])
+def session_filter(request):
+	filter_type = request.POST.get("form_type")
+	filter_ids =  request.POST.getlist("filter_name")
+
+
+	sessions = get_filtered_session(filter_type, filter_ids)
+
+	return JsonResponse({"sessions": sessions}, status=200, safe=False)
+
+
+def delete_session(request, session_id: int):
+	""" To delete session by its unique id """
+	
 	admin_md.Session.objects.get(id=session_id).delete()
 	return redirect("admin_profile:session_list")

@@ -4,60 +4,22 @@
 
 {% block main %}
 <section class="main__sessions-list main__section">
-	<div class="main__collection-container main__container">
-		{% if sessions.count == 0%}
-		<h2 class="main__section-title">Not sessions were found</h2>
-		{% endif %}
-		<div class="main__collection-swiper  main__ticket-swiper swiper">
-			<ul class="main__collection-list main__collection-swiper-wrapper swiper-wrapper">
-				{% for session in sessions %}
-				<li class="swiper-slide main__collection-item ">
-					<a href="{% url 'show_data:detail' session.movie.id %}" class="main__collection-link">
-						<figure class="main__collection-box">
-							<div class="main__img-wrapper">
-								<img src="{{ session.movie.img.url }}" alt=" top movie image" class="main__collection-img">
-							</div>
-
-							<figcaption class="main__collection-title">
-								<h3 class="main__collection-title">{{ session.movie.name }}</h3>
-								<ul class="main__collection-sub-list main__tickets-sub-list">
-									<li class="main__sub-item">
-										<a href="#"
-											class="main__sub-link main__tickets-sub-link">{{ session.start_time.hour}}:{{ session.start_time.minute}}</a>
-									</li>
-									<li class="main__sub-item">
-										<a href="#" class="main__sub-link main__tickets-sub-link price">{{session.price}}</a>
-									</li>
-									<li class="main__sub-item">
-										<a href="#" class="main__sub-link main__tickets-sub-link">{{ session.hall.name }}</a>
-									</li>
-									<li class="main__sub-item">
-										<a href="#" class="main__sub-link main__tickets-sub-link">
-											Edit
-										</a>
-									</li>
-									<li class="main__sub-item">
-										<a href="{% url 'admin_profile:delete_session' session.id %}"
-											class="main__sub-link main__tickets-sub-link">Delete
-										</a>
-									</li>
-								</ul>
-							</figcaption>
-						</figure>
-						<!-- <div class="main__collection-results">
-								<a href="#" class="main__collection-result movie-top">
-									<img src="images/top_movies/image 3.svg" alt="top movie service">
-									<p class="main__collection-number">5.0</p>
-								</a>
-								<a href="#" class="main__collection-result movie-imdb">
-									<span class="main__collection-span">imdb</span>
-									<p class="main__collection-number">4.8</p>
-								</a>
-							</div> -->
-					</a>
-				</li>
-				{% endfor %}
-			</ul>
+	<div class="main__session-container main__container">
+		<form method="post" class="main__session-filter">
+			{% csrf_token %}
+			<div class="main__admin-form-flexed column">
+				<div class="main__admin-select-block main__admin-select-block--full">
+					<label for="cinema">cinema</label>
+					<select name="cinema" id="cinema" class="main__admin-select" data-session-filter data-is_not_single="false">
+					</select>
+				</div>
+			</div>
+			<div class="main__admin-form-block">
+				<button type="submit" class="main__admin-btn">Search</button>
+			</div>
+		</form>
+		<div class="main__collection-swiper  main__session-swiper swiper">
+			<div class="main__collection-swiper-wrapper main__session-wrapper swiper-wrapper"></div>
 		</div>
 	</div>
 </section>
@@ -65,18 +27,7 @@
 
 
 {% block script %}
-<script>
-	const prices = document.querySelectorAll( ".price" )
-
-	const formatter = new Intl.NumberFormat( 'en-US', {
-		style: 'currency',
-		currency: 'USD',
-	} );
-
-	prices.forEach( price =>
-	{
-		const value = price.textContent;
-		price.textContent = formatter.format( value );
-	} )
-</script>
+<script src="{% static 'js/session_choices.js' %}" type="module" defer></script>
+<script src="{% static 'js/session_filter_handler.js' %}" type="module" defer></script>
+<script src="{% static 'js/admin_swiper.js' %}" type="module" defer></script>
 {% endblock %}

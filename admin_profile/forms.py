@@ -31,6 +31,12 @@ class CinemaForm(ModelForm):
         fields = "__all__"
 
 
+class HallForm(ModelForm):
+    class Meta:
+        model = md.Hall
+        fields = "__all__"
+
+
 class Sessions(ModelForm):
 	class Meta:
 		model = md.Session
