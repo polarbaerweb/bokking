@@ -6,14 +6,14 @@ function makePrimarySessionChoices() {
 	initializeChoices(element);
 }
 
-export async function makeSessionChoices(req_link = null, unique_id) {
+export async function makeSessionChoices(req_link = null, unique_id, label) {
 	const select = document.querySelector(
 		`select[data-select_unique_key="${unique_id}"]`,
 	);
 	const select_type = select.dataset.select_type;
 
 	await initializeChoices(select, req_link);
-	await buildSessionsList(select_type);
+	await buildSessionsList(select_type, label);
 }
 
 document.addEventListener("DOMContentLoaded", () =>

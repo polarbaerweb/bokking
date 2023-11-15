@@ -50,6 +50,14 @@ FORMS_BOX = {
 		"sessions": {
 			"form": forms.Sessions
 		},
+
+		"genre": {
+			"form": forms.GenreForm
+		},
+
+		"movie": {
+			"form": forms.MovieForm
+		}
 }
 
 LOGIN_URL = "/user_auth/login/"
@@ -83,6 +91,8 @@ def save_data(request):
 
 	if request.method == "POST":
 		form_type = request.POST.get("form_type")
+		img = request.FILES.get("img")
+
 
 		if not form_type:
 				logging.error("An error  ocurred, you did not indicate a form_type")
@@ -91,8 +101,15 @@ def save_data(request):
 
 		form_calling = FORMS_BOX[form_type]["form"]
 
-		form = "photo" in request.FILES and form_calling(
-				request.POST) or form_calling(request.POST, request.FILES)
+		form = None  
+
+		print(img)
+		
+		if img:
+			form = form_calling(request.POST, request.FILES)
+		else:
+			form = form_calling(request.POST) 
+
 
 		form_message = handle_form_save(request, form)
 
@@ -146,6 +163,8 @@ def get_data_by_name(request, name: str):
     queryset_dict = {
         "prizes": md.Prizes.objects.all(),
         "jobs": md.Jobs.objects.all(),
+				"actors": md.Actors.objects.all(),
+				"genre": show_models.Genre.objects.all(),
         "cinema": admin_md.Cinema.objects.all(),
         "hall": admin_md.Hall.objects.all(),
         "movie": show_models.Movie.objects.all(),

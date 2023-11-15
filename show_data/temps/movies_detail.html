@@ -37,7 +37,7 @@
 					<tr>
 						<th>Жанр</th>
 						{% for genre in movie.genre.all %}
-						<td>{{ genre.title }}</td>
+						<td>{{ genre.name }}</td>
 						{% endfor %}
 					</tr>
 					<tr>
@@ -47,7 +47,7 @@
 					<tr>
 						<th>В главных ролях</th>
 						{% for actor in movie.actors.all %}
-						<td>{{ actor.first_name }}</td>
+						<td>{{ actor.name }}</td>
 						{% endfor %}
 					</tr>
 				</tbody>

@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block main %}
+<main class="main">
+	<section class="main__profile main__section">
+		<div class="main__profile-container main__container">
+			<div class="main__profile-top">
+				<figure class="main__profile-box">
+					{% if request.user.user_image.url %}
+					<img src="{{ request.user.user_image.url}}" alt="user image" class="main__profile-img">
+					{% else %}
+					<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="user image" class="main__profile-img">
+					{% endif %}
+					<figcaption class="main__profile-title">
+						<h1 class="main__profile-name">{{ request.user.username }}</h1>
+					</figcaption>
+				</figure>
+			</div>
+			<div class="main__profile-information">
+				<p class="main__profile-description">
+					Email: <a href="{{ request.user.email }}">{{ request.user.email }}</a>
+				</p>
+				<p class="main__profile-description">
+					Address:
+					<a href="https://www.google.com/maps/search/?q=Magic+City" target="_blank">{{ request.user.address }}</a>
+				</p>
+			</div>
+		</div>
+	</section>
+	<section class="main__ticket main__section">
+		<div class="main__ticket-container main__container">
+			<div class="main__ticket-swiper swiper">
+				{% if tickets.count > 0 %}
+				<h2 class="main__ticket-header">Your Tickets</h2>
+				{% else %}
+				<h2 class="main__ticket-header">You do not have any ticket</h2>
+				{% endif %}
+				<ul class="main__ticket-wrapper swiper-wrapper">
+					{% for ticket in tickets %}
+					<li class="main__ticket-slide swiper-slide">
+						<figure class="main__ticket-box">
+							<img src="{{ ticket.booking.session.movie.img.url }}" alt="ticket image" class="main__ticket-img">
+							<!-- <img src="images/static_images/download.png" alt="qrcode image" class="main__ticket-qrimg"> -->
+							<figcaption class="main__ticket-title">
+								<h2 class="main__ticket-name">{{ ticket.booking.session.movie.name }}</h2>
+
+								<ul class="main__ticket-information">
+									<li class="main__ticket-item"><a href="#"
+											class="main__ticket-link">{{ ticket.booking.session.start_time.year }}</a></li>
+									<li class="main__ticket-item"><a href="#"
+											class="main__ticket-link">{{ ticket.booking.session.price }}</a>
+									</li>
+									{% if ticket.booking.session.is_vip %}
+									<li class="main__ticket-item"><a href="#" class="main__ticket-link vip">vip</a></li>
+									{% else %}
+									<li class="main__ticket-item"><a href="#" class="main__ticket-link">default</a></li>
+									{% endif %}
+								</ul>
+							</figcaption>
+						</figure>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</section>
+</main>
+{% endblock %}

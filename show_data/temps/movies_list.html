@@ -56,7 +56,7 @@
 <section class="main__collection-movies main__section">
 	<img src="images/static_images/Ellipse 8 (1).png" alt="background-image" class="main__bg-img right">
 	<div class="main__collection-container main__container">
-		<h2 class="main__section-title">{{ collection.title }}</h2>
+		<h2 class="main__section-title">{{ collection.name }}</h2>
 		<div class="main__collection-swiper swiper">
 			<ul class="main__collection-list main__collection-swiper-wrapper swiper-wrapper">
 				{% for movie in collection.movie.all %}
@@ -66,18 +66,17 @@
 							<div class="main__img-wrapper">
 								<img src="{{ movie.img.url }}" alt="top movie image" class="main__collection-img">
 							</div>
-
 							<figcaption class="main__collection-title">
 								<h3 class="main__collection-title">{{ movie.name_translated }}</h3>
 								<ul class="main__collection-sub-list">
 									<li class="main__sub-item">
-										<a href="#" class="main__sub-link">{{ movie.date.year }}</a>
+										<span href="#" class="main__sub-link">{{ movie.city }}</span>
 									</li>
 									<li class="main__sub-item">
-										<a href="#" class="main__sub-link">{{ movie.rating }}</a>
+										<span href="#" class="main__sub-link">{{ movie.date.year }}</span>
 									</li>
 									<li class="main__sub-item">
-										<a href="#" class="main__sub-link">{{ movie.city }}</a>
+										<span href="#" class="main__sub-link">{{ movie.rating }}</span>
 									</li>
 								</ul>
 							</figcaption>

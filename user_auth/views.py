@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
-from django.db import IntegrityError
+from django.db import IntegrityError, OperationalError
 from django.shortcuts import redirect, render, reverse
 
 from . import models as md
@@ -54,7 +54,7 @@ def user_signup(request):
                 first_name=first_name,
                 last_name=last_name,
             )
-        except IndentationError:
+        except (IntegrityError, OperationalError):
             return redirect(reverse("signup"))
         else:
             if user_image:

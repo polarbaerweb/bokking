@@ -31,18 +31,18 @@ class Movie(models.Model):
 
 
 class Collection(models.Model):
-    title = models.CharField(
+    name = models.CharField(
         max_length=255, default="undecided", unique=True, null=False)
 
     movie = models.ManyToManyField(Movie, related_name="collection")
 
     def __str__(self) -> str:
-        return str(self.title)
+        return str(self.name)
 
 
 class Genre(models.Model):
-    title = models.CharField(
+    name = models.CharField(
         max_length=30, default="undecided", unique=True, null=False)
 
     def __str__(self) -> str:
-        return str(self.title)
+        return str(self.name)

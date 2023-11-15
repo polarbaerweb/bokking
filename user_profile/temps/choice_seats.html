@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block  main %}
+<section class="main__seats">
+	<img src="images/static_images/Ellipse 8.png" alt="bg img" class="main__bg-img">
+	<img src="images/static_images/Ellipse 8 (1).png" alt="bg img" class="main__bg-img right">
+	<div class="main__seats-container main__container">
+		<form action="{% url 'user_profile:book_seat' session.id %}" method="post" class="main__seats-form">
+			{% csrf_token %}
+			<div class="main__seats-form-left">
+				{% for row in rows %}
+				<div class="main__form-row">
+					<ul class="main__form-seat-list">
+						{% for seat in row.seats.all %}
+						<li class="main__form-seat-item">
+							{% if seat.id in booked_seats %}
+							<input type="checkbox" name="seat" id="seat-{{ seat.id }}" class="main__form-seat-input" checked disabled>
+							<label for="seat-{{ seat.id }}" class="main__form-seat-label"></label>
+							{% else %}
+							<input type="checkbox" name="seat" id="seat-{{ seat.id }}" class="main__form-seat-input"
+								value="{{ seat.id }}">
+							<label for="seat-{{ seat.id }}" class="main__form-seat-label"></label>
+							{% endif %}
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="main__seats-form-right">
+				<div class="main__seat-block">
+					<label for="email" class="main__seat-title">
+						<i class="fa-solid fa-user"></i>
+					</label>
+					<input type="email" name="email" id="email" class="main__seat-input" placeholder="Email">
+				</div>
+				<div class="main__seat-block">
+					<label for="username" class="main__seat-title">
+						<i class="fa-solid fa-user"></i>
+					</label>
+					<input type="text" name="username" id="username" class="main__seat-input" placeholder="UserName">
+				</div>
+				<div class="main__seat-block">
+					<input type="submit" id="btn" class="main__seat-btn" placeholder="Save">
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/choose_seates.js' %}" type="module" defer></script>
+{% endblock %}

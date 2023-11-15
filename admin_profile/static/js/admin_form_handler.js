@@ -108,16 +108,24 @@ async function submit(attrs) {
 
 export async function getValues(form_type = null, form_block = null) {
 	const form = ADMIN_FORMS_OBJECT[form_type] || form_block;
-	const inputs = Array.from(form.querySelectorAll("input:not(.form-control)"));
+	const inputs = Array.from(
+		form.querySelectorAll("input:not(.form-control), textarea"),
+	);
 	const selects = Array.from(
 		form.querySelectorAll("select:not([data-session-filter])"),
 	);
 	const values = [];
 
 	if (inputs.length > 0) {
-		inputs.forEach((input) => {
+		inputs.forEach(async (input) => {
 			const object = {};
-			object[input.name] = input.value;
+
+			if (input.name === "img") {
+				const file = await handleFiles(input.files);
+				object[input.name] = file.img;
+			} else {
+				object[input.name] = input.value;
+			}
 
 			values.push(object);
 		});
@@ -131,11 +139,25 @@ export async function getValues(form_type = null, form_block = null) {
 				const object = {};
 				object[select.name] = option.value;
 				values.push(object);
+				console.log(object, values);
 			});
 		});
 	}
 
 	return values;
+}
+
+function handleFiles(files) {
+	const selectedFile = files[0];
+
+	if (!selectedFile) {
+		return Promise.reject(new Error("No file selected."));
+	}
+
+	const files_object = {};
+	files_object["img"] = selectedFile;
+
+	return Promise.resolve(files_object);
 }
 
 export async function appendToFormData(values, form_type) {
@@ -147,7 +169,11 @@ export async function appendToFormData(values, form_type) {
 
 		if (name == "name_add") name = "name";
 
-		form.append(name, value);
+		if (value instanceof File) {
+			form.append(name, value, value.name);
+		} else {
+			form.append(name, value);
+		}
 	});
 
 	const type = ["name_add", "prizes_add"].includes(form_type)
@@ -233,8 +259,6 @@ async function updateChoicesHelper(block, endpoint) {
 		block.tagName === "SELECT" ? block.id : block.querySelector("select").id;
 
 	const { values, valuesLength } = await getChoices(select_id, endpoint);
-
-	choice_cache.addToChoiceCache(select_id, valuesLength, values);
 
 	const statement = choice_cache.isValuesLengthHigherToOld(
 		select_id,

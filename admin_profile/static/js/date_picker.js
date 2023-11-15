@@ -1,10 +1,10 @@
-// import { flatpickr } from "flatpickr";
+const start_times = document.querySelectorAll(".date");
 
-const start_time = document.querySelector("#start_time");
-
-const fp = flatpickr(start_time, {
-	altInput: true,
-	altFormat: "M j, Y H:i",
-	dateFormat: "Y-m-dTH:i:S",
-	enableTime: true,
+start_times.forEach((element) => {
+	const fp = flatpickr(element, {
+		altInput: true,
+		altFormat: "M j, Y H:i",
+		dateFormat: "Y-m-dTH:i:S",
+		enableTime: true,
+	});
 });

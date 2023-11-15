@@ -87,7 +87,7 @@
 				</div>
 				<div class="main__admin-form-block">
 					<label for="first_name" class="main__admin-label"><i class="fa-solid fa-user"></i></label>
-					<input type="text" name="first_name" id="first_name">
+					<input type="text" name="name" id="first_name">
 				</div>
 				<div class="main__admin-form-block">
 					<label for="last_name" class="main__admin-label"><i class="fa-solid fa-user"></i></label>
@@ -179,13 +179,74 @@
 					</label>
 				</div>
 				<div class="main__admin-form-block">
-					<input type="text" name="start_time" id="start_time">
+					<input type="text" name="start_time" class="date">
 				</div>
 				<div class="main__admin-form-block">
 					<label for="is_vip" class="main__admin-label">
 						<i class="fa-solid fa-infinity"></i>
 					</label>
 					<input type="number" step="1" name="price">
+				</div>
+				<div class="main__admin-form-block">
+					<button type="submit" class="main__admin-btn">save</button>
+				</div>
+			</form>
+			<form method="post" class="main__admin-cinema-form main__admin-form" data-listener data-form_type="genre"
+				enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="main__admin-form-block">
+					<label for="genre" class="main__admin-label"><i class="fa-solid fa-book"></i></label>
+					<input type="text" name="name" id="genre">
+				</div>
+				<div class="main__admin-form-block">
+					<button type="submit" class="main__admin-btn">save</button>
+				</div>
+			</form>
+			<form method="post" class="main__admin-session-form main__admin-form" data-listener data-form_type="movie"
+				enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="main__admin-form-block">
+					<input type="text" name="name" id="movie_name">
+				</div>
+				<div class="main__admin-form-block">
+					<input type="text" name="name_translated" id="name_translated">
+				</div>
+				<div class="main__admin-form-block main__admin-form-text">
+					<textarea name="summary" id="summary"></textarea>
+				</div>
+				<div class="main__admin-form-block main__admin-form-text">
+					<textarea name="description" id="description"></textarea>
+				</div>
+				<div class="main__admin-form-block">
+					<input type="text" name="city" id="city">
+				</div>
+				<div class="main__admin-form-block">
+					<label for="img" class="main__form-browse">
+						upload movie image
+					</label>
+					<input type="file" name="img" id="img" hidden>
+				</div>
+				<div class="main__admin-form-block">
+					<input type="text" name="date" class="date">
+				</div>
+				<div class="main__admin-form-block">
+					<input type="number" name="rating" id="rating">
+				</div>
+				<div class="main__admin-form-block">
+					<input type="number" name="duration" id="duration">
+				</div>
+				<div class="main__admin-form-flexed column">
+					<div class="main__admin-select-block--full main__session-block">
+						<label for="actors">actors</label>
+						<select name="actors" id="actors" class="main__admin-select" data-choice data-is_not_single="true"
+							multiple="multiple"></select>
+					</div>
+					<div class="main__admin-select-block--full main__session-block">
+						<label for="genre">genre</label>
+						<select name="genre" id="genre" class="main__admin-select" data-choice data-is_not_single="false"
+							multiple="multiple">
+						</select>
+					</div>
 				</div>
 				<div class="main__admin-form-block">
 					<button type="submit" class="main__admin-btn">save</button>
@@ -201,7 +262,7 @@
 <script src="{% static 'js/admin_form_handler.js' %}" type="module" defer></script>
 <script src="{% static 'js/choices.js' %}" type="module" defer></script>
 <script src="{% static 'js/date_picker.js' %}" type="module" defer></script>
-
+<script src="{% static 'js/get_uploaded_filename.js' %}" type="module" defer></script>
 <script>
 	const breadcrumbs = document.querySelector( ".main__breadcrumbs" );
 	const main = document.querySelector( ".main" );

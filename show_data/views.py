@@ -8,7 +8,7 @@ from . import models as md
 
 def movies_list(request):
 	movies_list = md.Movie.objects.all().order_by("-rating")
-	collection = md.Collection.objects.all().order_by("title")
+	collection = md.Collection.objects.all().order_by("name")
 
 
 	half_films = floor((movies_list.count() * 50) / 100)

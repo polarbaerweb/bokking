@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Actors(models.Model):
-    first_name = models.CharField(
+    name = models.CharField(
         max_length=20, default="undecided", null=False)
     last_name = models.CharField(
         max_length=20, default="undecided", null=False)

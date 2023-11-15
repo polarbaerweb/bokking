@@ -53,7 +53,7 @@
 							</li>
 						</ul>
 					</li>
-					{% if  request.user.is_authenticated %}
+					{% if  request.user.is_superuser %}
 					<li class="header__menu-item menu__item sub">
 						<a href="" class="header__menu-link menu__link" tabindex="4">
 							{{ request.user.username }}
@@ -73,7 +73,11 @@
 					{% else %}
 					<li class="header__menu-item menu__item sub">
 						<a href="" class="header__menu-link menu__link" tabindex="4">
+							{% if request.user.is_authenticated %}
+							{{request.user.username}}
+							{% else %}
 							guest
+							{% endif %}
 						</a>
 						<ul class="header__sub-menu sub__menu">
 							<li class="header__sub-item sub__item">
@@ -81,6 +85,9 @@
 							</li>
 							<li class="header__sub-item sub__item">
 								<a href="{% url 'user_auth:login' %}" class="header__sub-link">Войти в систему</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="{% url 'user_profile:profile' %}" class="header__sub-link">Профиль</a>
 							</li>
 						</ul>
 					</li>

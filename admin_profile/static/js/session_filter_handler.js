@@ -29,21 +29,25 @@ function moviesMemorization() {
 	const movies_cache = new Map();
 
 	const methods = {
-		addToMoviesCache: function (sessions) {
-			const { hall } = sessions;
-
-			if (!movies_cache.has(hall)) {
-				movies_cache.set(hall, {
-					hall: hall,
-					sessions: sessions,
-				});
+		addToMoviesCache: function (label, sessions) {
+			if (!movies_cache.has(label)) {
+				movies_cache.set(label, sessions);
 			}
 		},
 
-		isHigher: function (sessions) {
-			const current_length = movies_cache.get(hall_name).sessions.length;
+		isHigher: function (label, sessions) {
+			let current_length = movies_cache.get(label);
 
-			if (current_length < sessions.length) {
+			console.log(current_length, label, movies_cache);
+
+			if (!current_length && sessions.length > 0) {
+				return true;
+			}
+
+			current_length = current_length.length;
+
+			if (sessions.length > current_length) {
+				movies_cache.set(label, sessions);
 				return true;
 			}
 
@@ -63,7 +67,10 @@ async function appendSelect(id, label, endpoint) {
 		await buildSessionsList(
 			document.querySelector(`select[data-select_unique_key="${id}"]`).dataset
 				.select_type,
+
+			label,
 		);
+
 		return;
 	}
 
@@ -86,10 +93,10 @@ async function appendSelect(id, label, endpoint) {
 
 	selects_container.appendChild(div);
 
-	makeSessionChoices(endpoint, id);
+	makeSessionChoices(endpoint, id, label);
 }
 
-export async function buildSessionsList(select_type) {
+export async function buildSessionsList(select_type, label) {
 	function getCsrfToken() {
 		const value = document.querySelector(
 			"input[name=csrfmiddlewaretoken]",
@@ -118,14 +125,15 @@ export async function buildSessionsList(select_type) {
 			return response.json();
 		})
 		.then((response) => {
-			movies_memorization.addToMoviesCache(response.sessions);
-			makeList(response);
+			makeList(label, response);
 		});
 }
 
-function makeList(response) {
-	if (movies_memorization.isHigher(response)) {
+function makeList(label, response) {
+	if (movies_memorization.isHigher(label, response.sessions)) {
 		const div = document.querySelector(".main__collection-swiper-wrapper");
+
+		movies_memorization.addToMoviesCache(label, response.sessions);
 
 		const ul = document.createElement("ul");
 		ul.className = "main__collection-list main__session-list swiper-slide ";

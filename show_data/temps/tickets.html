@@ -6,7 +6,7 @@
 			<ul class="main__collection-list main__collection-swiper-wrapper swiper-wrapper">
 				{% for session in sessions %}
 				<li class="swiper-slide main__collection-item ">
-					<a href="#" class="main__collection-link">
+					<a href="{% url 'user_profile:choice_seats' session.id %}" class="main__collection-link">
 						<figure class="main__collection-box">
 							<div class="main__img-wrapper">
 								<img src="{{ movie.img.url }}" alt=" top movie image" class="main__collection-img">
@@ -16,23 +16,24 @@
 								<h3 class="main__collection-title">{{ session.movie.name }}</h3>
 								<ul class="main__collection-sub-list main__tickets-sub-list">
 									<li class="main__sub-item">
-										<a href="#"
-											class="main__sub-link main__tickets-sub-link">{{ session.start_time.hour}}:{{ session.start_time.minute}}</a>
+										<span href="#"
+											class="main__sub-link main__tickets-sub-link">{{ session.start_time.hour}}:{{ session.start_time.minute}}</span>
 									</li>
 									<li class="main__sub-item">
-										<a href="#" class="main__sub-link main__tickets-sub-link price">{{session.price}}</a>
+										<span href="#" class="main__sub-link main__tickets-sub-link price">{{session.price}}</span>
 									</li>
 									<li class="main__sub-item">
-										<a href="#" class="main__sub-link main__tickets-sub-link">{{ session.hall.name }}</a>
+										<span href="#" class="main__sub-link main__tickets-sub-link">{{ session.hall.name }}</span>
 									</li>
 									<li class="main__sub-item">
-										<a href="#" class="main__sub-link main__tickets-sub-link {% if session.is_vip %} vip {% endif %}">
+										<span href="#"
+											class="main__sub-link main__tickets-sub-link {% if session.is_vip %} vip {% endif %}">
 											{% if session.is_vip %}
 											Vip
 											{% else %}
 											Default
 											{% endif %}
-										</a>
+										</span>
 									</li>
 								</ul>
 							</figcaption>

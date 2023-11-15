@@ -3,6 +3,7 @@ from django.forms import ModelForm
 
 from actors import models as actor_md
 from show_data import models as show_md
+from user_auth import models as user_auth_md
 
 from . import models as md
 
@@ -40,4 +41,14 @@ class HallForm(ModelForm):
 class Sessions(ModelForm):
 	class Meta:
 		model = md.Session
+		fields = "__all__"
+
+class GenreForm(ModelForm):
+	class Meta:
+		model = show_md.Genre
+		fields = "__all__"
+
+class MovieForm(ModelForm):
+	class Meta:
+		model = show_md.Movie
 		fields = "__all__"
