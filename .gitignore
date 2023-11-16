@@ -6,8 +6,6 @@ __pycache__/
 # C extensions
 *.so
 
-# OWN
-logs/
 
 # Distribution / packaging
 .Python
@@ -61,7 +59,6 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
