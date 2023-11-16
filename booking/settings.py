@@ -148,6 +148,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+SEAT_IMAGES_DIR = 'user_images/'  # Add the folder name for seat images
+
+# Add the seat images directory to the media root
+SEAT_IMAGES_ROOT = MEDIA_ROOT / SEAT_IMAGES_DIR
+
 
 # Custom Auth System
 
@@ -187,3 +192,7 @@ CORS_ALLOW_HEADERS = [
 
 
 APPEND_SLASH = False
+
+
+# DATE FORMAT
+DATE_INPUT_FORMATS = ['%b %d, %Y %H:%M']

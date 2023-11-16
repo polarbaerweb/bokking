@@ -17,6 +17,7 @@ async function handleFormSubmit(event) {
 
 	const select = document.querySelector("#cinema");
 	const option = select.querySelector("option");
+
 	const id = option.value;
 	const label = option.textContent;
 
@@ -38,8 +39,6 @@ function moviesMemorization() {
 		isHigher: function (label, sessions) {
 			let current_length = movies_cache.get(label);
 
-			console.log(current_length, label, movies_cache);
-
 			if (!current_length && sessions.length > 0) {
 				return true;
 			}
@@ -47,7 +46,7 @@ function moviesMemorization() {
 			current_length = current_length.length;
 
 			if (sessions.length > current_length) {
-				movies_cache.set(label, sessions);
+				movies_cache.set(id, sessions);
 				return true;
 			}
 
@@ -68,7 +67,7 @@ async function appendSelect(id, label, endpoint) {
 			document.querySelector(`select[data-select_unique_key="${id}"]`).dataset
 				.select_type,
 
-			label,
+			id,
 		);
 
 		return;
@@ -110,6 +109,7 @@ export async function buildSessionsList(select_type, label) {
 	};
 
 	const values = await getValues(null, form);
+
 	const form_data = await appendToFormData(values, select_type);
 
 	const config = {
@@ -125,11 +125,11 @@ export async function buildSessionsList(select_type, label) {
 			return response.json();
 		})
 		.then((response) => {
-			makeList(label, response);
+			makeList(response, label);
 		});
 }
 
-function makeList(label, response) {
+function makeList(response, label) {
 	if (movies_memorization.isHigher(label, response.sessions)) {
 		const div = document.querySelector(".main__collection-swiper-wrapper");
 
@@ -187,7 +187,7 @@ function makeList(label, response) {
 			editLi.className = "main__sub-item";
 
 			const editA = document.createElement("a");
-			editA.href = "#";
+			editA.href = `http://127.0.0.1:8000/user_admin/edit_session/${session.id}`;
 			editA.className = "main__sub-link main__tickets-sub-link";
 			editA.textContent = "Edit";
 

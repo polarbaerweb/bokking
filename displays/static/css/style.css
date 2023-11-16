@@ -1755,3 +1755,19 @@ footer {
 .main__session-sub-list {
 	width: 56.25rem !important;
 }
+
+.footer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.footer__container {
+}
+
+.footer__title {
+	color: #fff;
+	font-size: 2.125rem;
+	font-weight: 700;
+	line-height: 140%;
+}

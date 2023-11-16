@@ -49,12 +49,15 @@ function handleAsideList(attrs) {
 
 	if (type || is_loaded) {
 		removeActiveClasses();
-		ITEMS_OBJECT[type || "actors"].classList.add("active");
 
-		showFormByName(type || "actors");
-		handleSubmitFormByName(type || "actors");
-	} else {
-		console.log("Null was detected");
+		const logic = type || "sessions_edit";
+
+		if (typeof ITEMS_OBJECT[logic] !== "undefined") {
+			ITEMS_OBJECT[logic].classList.add("active");
+		}
+
+		showFormByName(logic);
+		handleSubmitFormByName(logic);
 	}
 
 	function removeActiveClasses() {
@@ -75,7 +78,7 @@ function showFormByName(form_type) {
 	}
 }
 
-function handleSubmitFormByName(form_type) {
+export function handleSubmitFormByName(form_type) {
 	const form = ADMIN_FORMS_OBJECT[form_type];
 	const is_true = !Boolean(form.dataset.listener);
 
@@ -95,15 +98,17 @@ function handleSubmitFormByName(form_type) {
 }
 
 async function submit(attrs) {
+	alert("Submit");
 	const { event, form_type } = attrs;
 
 	event.preventDefault();
+
 	const form_data = await appendToFormData(
 		await getValues(form_type),
 		form_type,
 	);
 
-	makePostRequest(form_data);
+	makePostRequest(form_data, form_type);
 }
 
 export async function getValues(form_type = null, form_block = null) {
@@ -187,7 +192,7 @@ export async function appendToFormData(values, form_type) {
 	return form;
 }
 
-async function makePostRequest(form_data) {
+async function makePostRequest(form_data, form_type = null) {
 	function getCsrfToken() {
 		const value = document.querySelector(
 			"input[name=csrfmiddlewaretoken]",

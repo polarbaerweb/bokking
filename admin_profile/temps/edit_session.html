@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block main %}
+<section class="main__detail main__section">
+	<div class="main__massage-block">
+
+	</div>
+	<img src="images/static_images/Ellipse 8.png" alt="background-image" class="main__bg-img">
+	<div class="main__detail-container main__container">
+		<div class="main__detail-left">
+			<figure class="main__detail-box">
+				<img src="{{ session.movie.img.url }}" alt="poster" class="main__detail-img">
+			</figure>
+		</div>
+		<div class="main__detail-right">
+			<form method="post" class="main__admin-session-form main__admin-form" data-listener data-form_type="sessions_edit"
+				enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="main__admin-form-flexed">
+					<div class="main__admin-select-block main__session-block">
+						<label for="cinema">cinema</label>
+						<select name="cinema" id="cinema" class="main__admin-select" data-choice data-is_not_single="false">
+						</select>
+					</div>
+					<div class="main__admin-select-block main__session-block">
+						<label for="hall">hall</label>
+						<select name="hall" id="hall" class="main__admin-select" data-choice data-is_not_single="false">
+						</select>
+					</div>
+					<div class="main__admin-select-block main__session-block">
+						<label for="movie">movie</label>
+						<select name="movie" id="movie" class="main__admin-select" data-choice data-is_not_single="false">
+						</select>
+					</div>
+				</div>
+				<div class="main__admin-form-block">
+					<input type="checkbox" name="is_vip" id="is_vip">
+					<label for="is_vip" class="main__admin-label main__label-is_vip">
+						<i class="fa-solid fa-infinity"></i>
+					</label>
+				</div>
+				<div class="main__admin-form-block">
+					<input type="text" name="start_time" class="date" value="{{ session.start_time | date:'Y-m-dTH:i:S' }}">
+				</div>
+				<div class="main__admin-form-block">
+					<label for="is_vip" class="main__admin-label">
+						<i class="fa-solid fa-infinity"></i>
+					</label>
+					<input type="number" step="1" name="price" value="{{ session.price }}">
+				</div>
+
+				<input type="number" name="session_id" value="{{ session.id }}" hidden>
+
+				<div class="main__admin-form-block">
+					<button type="submit" class="main__admin-btn">save</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/admin_form_handler.js' %}" type="module" defer></script>
+<script src="{% static 'js/choices.js' %}" type="module" defer></script>
+<script src="{% static 'js/edit_date_picker.js' %}" type="module" defer></script>
+{% endblock %}

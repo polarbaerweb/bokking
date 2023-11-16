@@ -8,6 +8,7 @@
 	<div class="main__seats-container main__container">
 		<form action="{% url 'user_profile:book_seat' session.id %}" method="post" class="main__seats-form">
 			{% csrf_token %}
+			{% if request.user.is_authenticated == False %}
 			<div class="main__seats-form-left">
 				{% for row in rows %}
 				<div class="main__form-row">
@@ -42,9 +43,40 @@
 					<input type="text" name="username" id="username" class="main__seat-input" placeholder="UserName">
 				</div>
 				<div class="main__seat-block">
+					<label for="password" class="main__seat-title">
+						<i class="fa-solid fa-user"></i>
+					</label>
+					<input type="text" name="password" id="password" class="main__seat-input" placeholder="Password">
+				</div>
+				<div class="main__seat-block">
 					<input type="submit" id="btn" class="main__seat-btn" placeholder="Save">
 				</div>
 			</div>
+			{% else %}
+			<div class="main__seats-form-left">
+				{% for row in rows %}
+				<div class="main__form-row">
+					<ul class="main__form-seat-list">
+						{% for seat in row.seats.all %}
+						<li class="main__form-seat-item">
+							{% if seat.id in booked_seats %}
+							<input type="checkbox" name="seat" id="seat-{{ seat.id }}" class="main__form-seat-input" checked disabled>
+							<label for="seat-{{ seat.id }}" class="main__form-seat-label"></label>
+							{% else %}
+							<input type="checkbox" name="seat" id="seat-{{ seat.id }}" class="main__form-seat-input"
+								value="{{ seat.id }}">
+							<label for="seat-{{ seat.id }}" class="main__form-seat-label"></label>
+							{% endif %}
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+				{% endfor %}
+			</div>
+			<div class="main__seat-block">
+				<input type="submit" id="btn" class="main__seat-btn" placeholder="Save">
+			</div>
+			{% endif %}
 		</form>
 	</div>
 </section>

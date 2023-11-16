@@ -58,7 +58,7 @@ def user_signup(request):
             return redirect(reverse("signup"))
         else:
             if user_image:
-                user.user_image = user_image.name
+                user.user_image = user_image
 
             user.save()
             return redirect("user_auth:login")

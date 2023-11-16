@@ -12,46 +12,8 @@
 					<li class="header__menu-item menu__item">
 						<a href="{% url 'show_data:home' %}" class="header__menu-link menu__link" tabindex="1">Главная</a>
 					</li>
-					<li class="header__menu-item menu__item sub">
+					<li class="header__menu-item menu__item sub genre_list">
 						<span class="header__menu-link menu__link" tabindex="2">По жанру</span>
-						<ul class="header__sub-menu sub__menu">
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Боевик</a>
-							</li>
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Военные</a>
-							</li>
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Детектив</a>
-							</li>
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Детский</a>
-							</li>
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Драма</a>
-							</li>
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Комедия</a>
-							</li>
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Криминал</a>
-							</li>
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Мелодрама</a>
-							</li>
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Триллер</a>
-							</li>
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Ужасы</a>
-							</li>
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Фантастика</a>
-							</li>
-							<li class="header__sub-item sub__item">
-								<a href="" class="header__sub-link">Фэнтези</a>
-							</li>
-						</ul>
 					</li>
 					{% if  request.user.is_superuser %}
 					<li class="header__menu-item menu__item sub">
@@ -68,16 +30,19 @@
 							<li class="header__sub-item">
 								<a href="{% url 'admin_profile:session_list' %}" class="header__sub-link">Sessions List</a>
 							</li>
+							<li class="header__sub-item">
+								<a href="{% url 'admin_profile:sold_tickets_list_temp' %}" class="header__sub-link">Sold Tickets</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="{% url 'user_profile:profile' %}" class="header__sub-link">Профиль</a>
+							</li>
 						</ul>
 					</li>
 					{% else %}
+					{% if request.user.is_authenticated %}
 					<li class="header__menu-item menu__item sub">
 						<a href="" class="header__menu-link menu__link" tabindex="4">
-							{% if request.user.is_authenticated %}
 							{{request.user.username}}
-							{% else %}
-							guest
-							{% endif %}
 						</a>
 						<ul class="header__sub-menu sub__menu">
 							<li class="header__sub-item sub__item">
@@ -91,6 +56,21 @@
 							</li>
 						</ul>
 					</li>
+					{% else %}
+					<li class="header__menu-item menu__item sub">
+						<a href="" class="header__menu-link menu__link" tabindex="4">
+							guest
+						</a>
+						<ul class="header__sub-menu sub__menu">
+							<li class="header__sub-item sub__item">
+								<a href="{% url 'user_auth:signup' %}" class="header__sub-link">Создать аккаунт</a>
+							</li>
+							<li class="header__sub-item sub__item">
+								<a href="{% url 'user_auth:login' %}" class="header__sub-link">Войти в систему</a>
+							</li>
+						</ul>
+					</li>
+					{% endif %}
 					{% endif %}
 				</ul>
 			</nav>

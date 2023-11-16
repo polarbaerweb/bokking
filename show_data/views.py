@@ -1,5 +1,7 @@
 from math import floor
 
+from django.core import serializers
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
 
@@ -37,3 +39,17 @@ def movies_detail(request, movie_id):
 	template_name = "movies_detail.html"
 	return render(request, template_name, context)
 	
+
+def get_genre_list(request):
+	genre_list = md.Genre.objects.all()
+	serialized = serializers.serialize("json", genre_list, fields=("id", "name"))
+	return JsonResponse({"list": serialized}, status=200)
+
+def get_genre_by_id(request, genre_id: int):
+	genre = md.Genre.objects.get(id=genre_id)
+	template_name = "genre_list.html"
+	context = {
+		"genre": genre
+	}
+
+	return render(request, template_name, context)

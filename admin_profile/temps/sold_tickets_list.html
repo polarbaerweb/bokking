@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block main %}
+<section class="main__sessions-list main__section">
+	<div class="main__session-container main__container">
+		<div class="main__collection-swiper  main__session-swiper swiper">
+			<div class="main__collection-swiper-wrapper main__session-wrapper swiper-wrapper"></div>
+		</div>
+	</div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/admin_swiper.js' %}" type="module" defer></script>
+<script src="{% static 'js/sold_tickets_handler.js' %}" type="module" defer></script>
+{% endblock %}

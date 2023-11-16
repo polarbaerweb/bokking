@@ -6,9 +6,6 @@ from show_data import models as md
 
 class Cinema(models.Model):
 	name = models.CharField(max_length=100, unique=True, null=False)
-
-	def natural_key(self):
-		return (self.id, self.name)
 	
 	def __str__(self):
 			return str(self.name)
@@ -59,9 +56,6 @@ class Session(models.Model):
 	price = models.DecimalField(max_digits=10, decimal_places=2)
 	is_vip = models.BooleanField(default=False)
 
-	@property
-	def is_not_expired(self):
-			return self.start_time > now()
 
 	def __str__(self):
 			return f"{self.movie.name} - {self.start_time}"
