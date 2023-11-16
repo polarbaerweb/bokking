@@ -21,10 +21,13 @@
 				<p class="main__profile-description">
 					Email: <a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a>
 				</p>
+				{% if request.user.user_address %}
 				<p class="main__profile-description">
 					Address:
-					<a href="https://www.google.com/maps/search/?q=Magic+City" target="_blank">{{ request.user.user_address }}</a>
+					<a href="https://www.google.com/maps/search/?q={{ user.user_address }}"
+						target="_blank">{{ request.user.user_address }}</a>
 				</p>
+				{% endif %}
 			</div>
 		</div>
 	</section>
